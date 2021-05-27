@@ -1,0 +1,77 @@
+---
+title: "cmpR"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{cmpR}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(cmpR)
+```
+
+# Create data
+```{r}
+set.seed(123456)
+x <- 1:10
+y <- 0.5*x+rnorm(length(x), sd=1:10*0.1)
+df <- data.frame(y=y,x=x, a=rnorm(length(y)))
+#few problems
+df$y[10] <- df$y[10]*3
+plot(y~x, data=df, ylim=c(0, 15), xlim=c(0,15))
+abline(lm(y~x,data=df))
+
+#instantiate class
+obj <- new("cmpR", df, y~x)
+
+#more than one covar, test effect of x
+#obj <- new("cmpR", df, y~x+a)
+
+#more than one covar, test effect of a
+#obj <- new("cmpR", df, y~a+x)
+```
+
+# variant 1
+```{r}
+## returns t-value
+t1 <- tcalFast2(obj, method="V1")
+```
+
+# variant 2
+```{r}
+## returns t-value
+t2 <- tcalFast2(obj, method="V2")
+```
+
+# robust
+```{r}
+rob <- robust(obj)
+rob <- lapply(rob, function(x) {    
+	   p <- NA        
+	   if (is.null(dim(x$fit))) {        
+	       p <- x$fit        
+	   } else {        
+	       p <- x$fit[2,4]        
+	   }        
+	   data.frame(type=x$type,p=p)        
+})
+```
+
+# compare
+```{r}
+df1 <- rbind(do.call(rbind, rob),
+	    data.frame(type="variant 1", p=pt(t1, df=length(df[,1])-2, lower.tail=F)),
+	    data.frame(type="variant 2", p=pt(t2, df=length(df[,1])-2, lower.tail=F)))
+par(mar=c(9,4,3,3))
+barplot(df1$p, names.arg=df1$type,las=2,ylab="p")
+abline(h=0.05)
+```
+
