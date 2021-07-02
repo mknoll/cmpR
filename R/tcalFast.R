@@ -45,9 +45,9 @@ tcalFast2 <- function(obj, rep=100, method="V2", res="Liu1988", eps="HC3", ...) 
 
     ret <- NA
     if (method=="V2") {
-	ret <- median(unlist(foreach(i=1:rep) %dopar% median(bootMCFast2(obj, 10000, eps, res)$tVal)))
+	ret <- median(unlist(foreach(i=1:rep) %dopar% median(bootMCFast2(obj, 10000, res, eps)$tVal)))
     } else if (method=="V1") {
-	ret <- median(unlist(foreach(i=1:rep) %dopar% median(bootPlainFast2(obj, 10000, eps, res)$tVal)))
+	ret <- median(unlist(foreach(i=1:rep) %dopar% median(bootPlainFast2(obj, 10000, res, eps)$tVal)))
     } else {
 	stop("Unknown method!")
     }
