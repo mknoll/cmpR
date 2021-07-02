@@ -36,7 +36,7 @@ tcalFast <- function(obj, rep=100, method="V2", ...) {
 #' @import parallel
 #'
 #' @export
-tcalFast2 <- function(obj, rep=100, method="V2", ...) {
+tcalFast2 <- function(obj, rep=100, method="V2", res="Liu1988", eps="HC3", ...) {
     no_cores <- parallel::detectCores() - 1    
     no_cores <- ifelse(no_cores == 0, 1, no_cores)    
     ## FIXME    
@@ -45,9 +45,9 @@ tcalFast2 <- function(obj, rep=100, method="V2", ...) {
 
     ret <- NA
     if (method=="V2") {
-	ret <- median(unlist(foreach(i=1:rep) %dopar% median(bootMCFast2(obj, 10000, "HC3", "Liu1988")$tVal)))
+	ret <- median(unlist(foreach(i=1:rep) %dopar% median(bootMCFast2(obj, 10000, eps, res)$tVal)))
     } else if (method=="V1") {
-	ret <- median(unlist(foreach(i=1:rep) %dopar% median(bootPlainFast2(obj, 10000, "HC3", "Liu1988")$tVal)))
+	ret <- median(unlist(foreach(i=1:rep) %dopar% median(bootPlainFast2(obj, 10000, eps, res)$tVal)))
     } else {
 	stop("Unknown method!")
     }
