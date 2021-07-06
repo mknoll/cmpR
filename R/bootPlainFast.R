@@ -29,7 +29,10 @@ bootPlainFast <- function(obj, B=1000,
 
 	    if (!any(is.na(prd)) && !any(is.infinite(prd)) && !any(is.na(uhat)) && !perfectFit) {
 
-		if (length(res) > 0 && any(uhat > trunc*max(res[[1]]))) {
+		if (length(res) > 0 &&  (
+					 any(uhat > trunc*max(res[[1]])) || 
+					     any(data$RES < 1/trunc*min(res[[1]]))
+					 )) {
 		    break
 		}
 

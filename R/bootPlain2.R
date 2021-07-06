@@ -1,6 +1,6 @@
 #' @title Variant 1
 #' 
-#' @description Variables must be names y and x!
+#' @description TODO
 #' 
 #' @import Rfast
 bootPlain2 <- function(obj, B=1000,
@@ -43,7 +43,10 @@ bootPlain2 <- function(obj, B=1000,
 	    fitTmp <- lmfit(X, tmp[,obj@depVar])
 
 	    if (!any(is.na(prd)) && !any(is.infinite(prd)) && !any(is.na(uhat))) {
-		if (length(res) > 0 && any(data$RES > trunc*max(res[[1]]))) {
+		if (length(res) > 0 && 
+		    (any(data$RES > trunc*max(res[[1]]))) ||
+		    any(data$RES < 1/trunc*min(res[[1]]))
+		    ) {
 		    if (is.null(stopW)) {
 			stopW <- i
 		    }

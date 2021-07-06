@@ -40,7 +40,11 @@ bootMCFast2 <- function(obj, B=1000, typeRes="HC3", typeEps="Liu1988", trunc=100
 	    }
 
 	    ### truncate
-	    if (length(res) > 0 && any(data$RES > trunc*max(res[[1]]))) {
+	    if (length(res) > 0 && (
+				    any(data$RES > trunc*max(res[[1]])) || 
+					any(data$RES < 1/trunc*min(res[[1]]))
+
+				    )) {
 		tr <- tr[1:(i-1)]
 		stopW <- i
 		break
@@ -51,9 +55,7 @@ bootMCFast2 <- function(obj, B=1000, typeRes="HC3", typeEps="Liu1988", trunc=100
 
 	    prd <- X %*% as.matrix(fit$be)
 	    data[,obj@depVar] <- prd+data$RES
-	    #data[,obj@depVar] <- predict(fit, newdata=data)+data$RES
 
-	    #fit <- lm(frm, data=data)
 	    fit <- lmfit(X, data[,obj@depVar])
 	} else{
 	    chain[i+1,] = chain[i,]

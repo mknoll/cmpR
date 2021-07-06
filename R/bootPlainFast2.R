@@ -39,7 +39,11 @@ bootPlainFast2 <- function(obj, B=1000,
 	    fitTmp <- lmfit(X, tmp[,obj@depVar])
 
 	    if (!any(is.na(prd)) && !any(is.infinite(prd)) && !any(is.na(uhat))) {
-		if (length(res) > 0 && any(uhat > trunc*max(res[[1]]))) {
+		if (length(res) > 0 && (
+					any(uhat > trunc*max(res[[1]])) ||
+					    any(data$RES < 1/trunc*min(res[[1]]))
+
+					)) {
 		    stopW <- i
 		    break
 		}

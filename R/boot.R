@@ -9,8 +9,36 @@ resTransf <- function(fit, type="HC3") {
 	fit$residuals/(1-hatvalues(fit))^0.5
     } else if( type == "HC3") {
 	fit$residuals/( 1-hatvalues(fit)) 
+    } else if (type == "HC4") {
+	n <- length(fit$residuals)
+	p <- length(summary(fit)$coef[,1]) 
+	hv <- hatvalues(fit)
+	vc <- n*hv/p
+	delta <- sapply(vc, function(x) min(4,x))
+	res/(1-hv)^delta 
+    } else if (type == "HC4m") {
+	n <- length(fit$residuals)
+	p <- length(summary(fit)$coef[,1]) 
+	hv <- hatvalues(fit)
+	vc <- n*hv/p
+	gamma1 <- 1.0 #suggested value
+	v1 <- sapply(gamma1, function(x) min(x,vc))
+	gamma2 <- 1.5 #suggested value
+	v2 <- sapply(gamma2, function(x) min(x,vc))
+        delta <- v1+v2
+	res/(1-hv)^delta
+    } else if (type == "HC5") {
+	n <- length(fit$residuals)
+	p <- length(summary(fit)$coef[,1]) 
+	hv <- hatvalues(fit)
+	k <- 0.7 #suggested value
+	vc <- n*hv/p
+	vc2 <- n*k*max(hv)/p 
+	vc2_2 <- sapply(vc2, function(x) max(4, x))
+	delta <- sapply(vc, function(x) min(vc, vc2_2))
+	res/((1-hv)^delta)^0.5
     } else {
-	stop("Unknown type / not implemented in resTransf() -> check resTransf2()! ")
+	stop("Unknown type!")
     }
 }
 
