@@ -33,7 +33,10 @@ bootPlain2 <- function(obj, B=1000,
 	    tryCatch({
 		#<simpleError in solve.default(t(X) %*% X): System ist für den Rechner singulär: reziproke Konditionszahl = 0>
 		uhat <- multE(resTransf2(fit$residuals, fit$be, hv, type=typeRes), type=typeEps)    
-	    }, error=function(e) { next })
+	    }, error=function(e) { 
+		print(e) 
+		next 
+	    })
 
 	    tmp <- data
 
@@ -44,9 +47,10 @@ bootPlain2 <- function(obj, B=1000,
 
 	    if (!any(is.na(prd)) && !any(is.infinite(prd)) && !any(is.na(uhat))) {
 		if (length(res) > 0 && 
-		    (any(data$RES > trunc*max(res[[1]])) ||
-		    any(abs(data$RES) < 1/trunc*abs(min(res[[1]])))
-		    )) {
+		    (
+		     any(prd > trunc*max(res[[1]])) ||
+			 any(abs(prd) < 1/trunc*abs(min(res[[1]])))
+		     )) {
 		    if (is.null(stopW)) {
 			stopW <- i
 		    }
@@ -63,7 +67,7 @@ bootPlain2 <- function(obj, B=1000,
 
 		res[[length(res)+1]] <- uhat
 	    }
-	}, error=function(e) {   })
+	}, error=function(e) { print(e) })
     }
     tr <- unlist(tr)
     trFull <- unlist(tr)

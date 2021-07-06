@@ -31,7 +31,7 @@ bootPlainFast <- function(obj, B=1000,
 
 		if (length(res) > 0 &&  (
 					 any(uhat > trunc*max(res[[1]])) || 
-					     any(abs(data$RES) < 1/trunc*abs(min(res[[1]])))
+					     any(abs(uhat) < 1/trunc*abs(min(res[[1]])))
 					 )) {
 		    break
 		}

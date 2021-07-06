@@ -41,7 +41,7 @@ bootPlainFast2 <- function(obj, B=1000,
 	    if (!any(is.na(prd)) && !any(is.infinite(prd)) && !any(is.na(uhat))) {
 		if (length(res) > 0 && (
 					any(uhat > trunc*max(res[[1]])) ||
-					    any(abs(data$RES) < 1/trunc*abs(min(res[[1]])))
+					    any(abs(uhat) < 1/trunc*abs(min(res[[1]])))
 
 					)) {
 		    stopW <- i
