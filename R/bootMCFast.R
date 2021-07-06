@@ -32,7 +32,7 @@ bootMCFast <- function(obj, B=1000, typeRes="HC3", typeEps="Liu1988", trunc=1000
 
 	    ### truncate
 	    if (length(res) > 0 && (any(data$RES > trunc*max(res[[1]])) ||
-				    any(data$RES < 1/trunc*min(res[[1]]))
+				    any(abs(data$RES) < 1/trunc*abs(min(res[[1]])))
 
 				    )) {
 		tr <- tr[1:(i-1)]

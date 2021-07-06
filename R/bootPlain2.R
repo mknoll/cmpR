@@ -44,9 +44,9 @@ bootPlain2 <- function(obj, B=1000,
 
 	    if (!any(is.na(prd)) && !any(is.infinite(prd)) && !any(is.na(uhat))) {
 		if (length(res) > 0 && 
-		    (any(data$RES > trunc*max(res[[1]]))) ||
-		    any(data$RES < 1/trunc*min(res[[1]]))
-		    ) {
+		    (any(data$RES > trunc*max(res[[1]])) ||
+		    any(abs(data$RES) < 1/trunc*abs(min(res[[1]])))
+		    )) {
 		    if (is.null(stopW)) {
 			stopW <- i
 		    }
@@ -72,6 +72,9 @@ bootPlain2 <- function(obj, B=1000,
     inval <- F
     if (!is.null(trunc)) {
 	stopW <- which(unlist(lapply(res,max))  > max(res[[1]])*trunc)[1]    
+	if (is.na(stopW)) {
+	    stopW <- which(unlist(lapply(res,function(x) abs(min(x)))) < 1/trunc*abs(min(res[[1]])))[1]    
+	}
 	stopW <- ifelse(is.na(stopW), length(res), stopW)    
 	tr <- tr[1:stopW]
 	if (inval) { 

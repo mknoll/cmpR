@@ -88,6 +88,9 @@ bootMC2 <- function(obj, B=1000, typeRes="HC3", typeEps="Liu1988", trunc=1000) {
 	} else {
 	    stopW <- which(unlist(lapply(res,max))  > max(res[[1]])*trunc)[1]                
 	}
+	if (is.na(stopW)) {
+	    stopW <- which(unlist(lapply(res,function(x) abs(min(x)))) < 1/trunc*abs(min(res[[1]])))[1]    
+	}
         stopW <- ifelse(is.na(stopW), length(res), stopW)        
         tr <- tr[1:stopW]    
 	if (inval) {

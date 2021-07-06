@@ -49,15 +49,9 @@ bootPlain <- function(obj, B=1000,
     inval <- F
     if (!is.null(trunc)) {
 	stopW <- which(unlist(lapply(res,max))  > max(res[[1]])*trunc)[1]    
-#	if (is.na(stopW)) {
-#	    ### FIXME: hardcoded!
-#	    cmp <- 10^unlist(lapply(res,function(x) max(abs(log(abs(x), 10)))))  
-#	    ref <- 10^max(abs(log(abs(res[[1]]), 10)))
-#	    if (any(cmp > ref*trunc)) {
-#		stopW <- 1 #which(cmp > ref)[1]
-#		inval <- T
-#	    }
-#	}
+	if (is.na(stopW)) {
+	    stopW <- which(unlist(lapply(res,function(x) abs(min(x)))) < 1/trunc*abs(min(res[[1]])))[1]    
+	}
 	stopW <- ifelse(is.na(stopW), length(res), stopW)    
 	tr <- tr[1:stopW]
 	if (inval) { 

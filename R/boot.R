@@ -12,6 +12,7 @@ resTransf <- function(fit, type="HC3") {
     } else if (type == "HC4") {
 	n <- length(fit$residuals)
 	p <- length(summary(fit)$coef[,1]) 
+	res <- fit$residuals
 	hv <- hatvalues(fit)
 	vc <- n*hv/p
 	delta <- sapply(vc, function(x) min(4,x))
@@ -19,6 +20,7 @@ resTransf <- function(fit, type="HC3") {
     } else if (type == "HC4m") {
 	n <- length(fit$residuals)
 	p <- length(summary(fit)$coef[,1]) 
+	res <- fit$residuals
 	hv <- hatvalues(fit)
 	vc <- n*hv/p
 	gamma1 <- 1.0 #suggested value
@@ -30,6 +32,7 @@ resTransf <- function(fit, type="HC3") {
     } else if (type == "HC5") {
 	n <- length(fit$residuals)
 	p <- length(summary(fit)$coef[,1]) 
+	res <- fit$residuals
 	hv <- hatvalues(fit)
 	k <- 0.7 #suggested value
 	vc <- n*hv/p
