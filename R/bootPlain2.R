@@ -80,10 +80,11 @@ bootPlain2 <- function(obj, B=1000,
 	    stopW <- which(unlist(lapply(res,function(x) abs(min(x)))) < 1/trunc*abs(min(res[[1]])))[1]    
 	}
 	stopW <- ifelse(is.na(stopW), length(res), stopW)    
-	tr <- tr[1:stopW]
 	if (inval) { 
 	    tr <- NA 
 	    stopW <- 0 
+	} else {
+	    tr <- tr[1:stopW]
 	}
     }
 
