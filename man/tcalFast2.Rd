@@ -4,7 +4,7 @@
 \alias{tcalFast2}
 \title{Calculate t-value, fast implementation}
 \usage{
-tcalFast2(obj, rep = 100, method = "V2", ...)
+tcalFast2(obj, rep = 100, method = "V2", res = "Liu1988", eps = "HC3", ...)
 }
 \description{
 data must adhere to the form y~x

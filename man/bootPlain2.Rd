@@ -7,5 +7,5 @@
 bootPlain2(obj, B = 1000, typeRes = "HC3", typeEps = "Liu1988", trunc = 1000)
 }
 \description{
-Variables must be names y and x!
+TODO
 }

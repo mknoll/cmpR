@@ -82,7 +82,7 @@ resTransf2 <- function(res, X, hv, type="HC3") {
 	delta <- sapply(vc, function(x) min(vc, vc2_2))
 	res/((1-hv)^delta)^0.5
     } else {
-	stop("Unknown type!")
+	stop(paste("Unknown type: ", type))
     }
 }
 
@@ -95,7 +95,7 @@ multE <- function(x, type="Liu1988") {
 	prob <- (sqrt(5)+1)/(2*sqrt(5))
 	fact <- sample(val, 1, prob=c(prob, 1-prob))
     } else {
-	stop("Unknown type!")
+	stop(paste("Unknown type: ", type))
     }
 
     x*fact
