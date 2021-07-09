@@ -36,7 +36,7 @@ tcalFast <- function(obj, rep=100, method="V2", ...) {
 #' @import parallel
 #'
 #' @export
-tcalFast2 <- function(obj, rep=100, method="V2", res="Liu1988", eps="HC3", ...) {
+tcalFast2 <- function(obj, rep=100, method="V2", res="HC3", eps="Liu1988", ...) {
     no_cores <- parallel::detectCores() - 1    
     no_cores <- ifelse(no_cores == 0, 1, no_cores)    
     ## FIXME    
